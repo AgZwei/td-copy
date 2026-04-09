@@ -65,6 +65,7 @@ static uint64 pq_gcd(uint64 a, uint64 b) {
   }
   DCHECK((b & 1) != 0);
 
+  // Infinite loop; will always exit via 'return a;' when a == b.
   while (true) {
     if (a > b) {
       a = (a - b) >> 1;
@@ -79,6 +80,7 @@ static uint64 pq_gcd(uint64 a, uint64 b) {
     } else {
       return a;
     }
+  }
   }
 }
 

@@ -26,6 +26,7 @@ namespace {
 std::atomic<int64> random_seed_generation{0};
 }  // namespace
 
+// Fills the given MutableSlice with cryptographically secure random bytes.
 void Random::secure_bytes(MutableSlice dest) {
   Random::secure_bytes(dest.ubegin(), dest.size());
 }
@@ -59,6 +60,11 @@ void Random::secure_bytes(unsigned char *ptr, size_t size) {
       return;
     }
   }
+
+  // as the following comments suggest, RAND bytes is not guaranteed to be thread-safe
+  // and it can fail
+  // result of failing is not defined
+
   if (size < BUF_SIZE) {
     int err = RAND_bytes(buf, static_cast<int>(BUF_SIZE));
     // TODO: it CAN fail
